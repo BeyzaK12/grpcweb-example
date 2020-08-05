@@ -21,10 +21,10 @@
 */
 package library
 
-import jspb "github.com/johanbrandhorst/protobuf/jspb"
-import google_protobuf "github.com/johanbrandhorst/protobuf/ptypes/timestamp"
-
 import (
+	jspb "github.com/johanbrandhorst/protobuf/jspb"
+	google_protobuf "github.com/johanbrandhorst/protobuf/ptypes/timestamp"
+
 	context "context"
 
 	grpcweb "github.com/johanbrandhorst/protobuf/grpcweb"
@@ -401,6 +401,7 @@ func (m *GetBookRequest) Unmarshal(rawBytes []byte) (*GetBookRequest, error) {
 }
 
 // QueryBooksRequest is the input to the QueryBooks method.
+/*
 type QueryBooksRequest struct {
 	// AuthorPrefix is the prefix with which
 	// to match against the author of a book in the library.
@@ -465,6 +466,7 @@ func (m *QueryBooksRequest) Unmarshal(rawBytes []byte) (*QueryBooksRequest, erro
 
 	return m, nil
 }
+*/
 
 // Collection is a collection of books
 type Collection struct {
@@ -578,8 +580,8 @@ func (m *BookMessage) GetName() (x string) {
 	return x
 }
 
-// GetMessage gets the Message of the BookMessage.
-func (m *BookMessage) GetMessage() (x string) {
+// GetBook gets the Message of the BookMessage.
+func (m *BookMessage) GetBook() (x string) {
 	if v, ok := m.GetContent().(*BookMessage_Message); ok {
 		return v.Message
 	}
@@ -656,8 +658,8 @@ type BookResponse struct {
 	Message string
 }
 
-// GetMessage gets the Message of the BookResponse.
-func (m *BookResponse) GetMessage() (x string) {
+// GetBook gets the Message of the BookResponse.
+func (m *BookResponse) GetBook() (x string) {
 	if m == nil {
 		return x
 	}
@@ -735,11 +737,11 @@ type BookServiceClient interface {
 	// QueryBooks returns all Books whos author
 	// matches the author prefix provided, as a stream
 	// of Books.
-	QueryBooks(ctx context.Context, in *QueryBooksRequest, opts ...grpcweb.CallOption) (BookService_QueryBooksClient, error)
+	//QueryBooks(ctx context.Context, in *QueryBooksRequest, opts ...grpcweb.CallOption) (BookService_QueryBooksClient, error)
 	// MakeCollection takes a stream of books and returns a Book collection.
-	MakeCollection(ctx context.Context, opts ...grpcweb.CallOption) (BookService_MakeCollectionClient, error)
-	// BookChat allows discussion about books
-	BookChat(ctx context.Context, opts ...grpcweb.CallOption) (BookService_BookChatClient, error)
+	//MakeCollection(ctx context.Context, opts ...grpcweb.CallOption) (BookService_MakeCollectionClient, error)
+	// Chat allows discussion about books
+	//Chat(ctx context.Context, opts ...grpcweb.CallOption) (BookService_ChatClient, error)
 }
 
 type bookServiceClient struct {
@@ -762,6 +764,7 @@ func (c *bookServiceClient) GetBook(ctx context.Context, in *GetBookRequest, opt
 	return new(Book).Unmarshal(resp)
 }
 
+/*
 func (c *bookServiceClient) QueryBooks(ctx context.Context, in *QueryBooksRequest, opts ...grpcweb.CallOption) (BookService_QueryBooksClient, error) {
 	srv, err := c.client.NewClientStream(ctx, false, true, "QueryBooks", opts...)
 	if err != nil {
@@ -831,30 +834,30 @@ func (x *bookServiceMakeCollectionClient) CloseAndRecv() (*Collection, error) {
 	return new(Collection).Unmarshal(resp)
 }
 
-func (c *bookServiceClient) BookChat(ctx context.Context, opts ...grpcweb.CallOption) (BookService_BookChatClient, error) {
-	srv, err := c.client.NewClientStream(ctx, true, true, "BookChat", opts...)
+func (c *bookServiceClient) Chat(ctx context.Context, opts ...grpcweb.CallOption) (BookService_ChatClient, error) {
+	srv, err := c.client.NewClientStream(ctx, true, true, "Chat", opts...)
 	if err != nil {
 		return nil, err
 	}
 
-	return &bookServiceBookChatClient{srv}, nil
+	return &bookServiceChatClient{srv}, nil
 }
 
-type BookService_BookChatClient interface {
+type BookService_ChatClient interface {
 	Send(*BookMessage) error
 	Recv() (*BookResponse, error)
 	grpcweb.ClientStream
 }
 
-type bookServiceBookChatClient struct {
+type bookServiceChatClient struct {
 	grpcweb.ClientStream
 }
 
-func (x *bookServiceBookChatClient) Send(req *BookMessage) error {
+func (x *bookServiceChatClient) Send(req *BookMessage) error {
 	return x.SendMsg(req.Marshal())
 }
 
-func (x *bookServiceBookChatClient) Recv() (*BookResponse, error) {
+func (x *bookServiceChatClient) Recv() (*BookResponse, error) {
 	resp, err := x.RecvMsg()
 	if err != nil {
 		return nil, err
@@ -862,3 +865,4 @@ func (x *bookServiceBookChatClient) Recv() (*BookResponse, error) {
 
 	return new(BookResponse).Unmarshal(resp)
 }
+*/

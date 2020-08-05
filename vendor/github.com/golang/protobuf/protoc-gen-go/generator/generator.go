@@ -1921,7 +1921,7 @@ func (g *Generator) generateMessage(message *Descriptor) {
 	if len(message.ExtensionRange) > 0 {
 		hasExtensions = true
 		// message_set_wire_format only makes sense when extensions are defined.
-		if opts := message.Options; opts != nil && opts.GetMessageSetWireFormat() {
+		if opts := message.Options; opts != nil && opts.GetBookSetWireFormat() {
 			isMessageSet = true
 			g.P()
 			g.P("func (m *", ccTypeName, ") Marshal() ([]byte, error) {")

@@ -43,7 +43,7 @@ type statusError spb.Status
 
 func (se *statusError) Error() string {
 	p := (*spb.Status)(se)
-	return fmt.Sprintf("rpc error: code = %s desc = %s", codes.Code(p.GetCode()), p.GetMessage())
+	return fmt.Sprintf("rpc error: code = %s desc = %s", codes.Code(p.GetCode()), p.GetBook())
 }
 
 func (se *statusError) GRPCStatus() *Status {

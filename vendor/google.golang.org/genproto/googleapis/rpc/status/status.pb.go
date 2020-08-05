@@ -104,7 +104,7 @@ func (m *Status) GetCode() int32 {
 	return 0
 }
 
-func (m *Status) GetMessage() string {
+func (m *Status) GetBook() string {
 	if m != nil {
 		return m.Message
 	}

@@ -21,14 +21,19 @@ It has these top-level messages:
 */
 package library
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
-import google_protobuf "github.com/golang/protobuf/ptypes/timestamp"
-import _ "github.com/johanbrandhorst/protobuf/proto"
-
 import (
+	fmt "fmt"
+
+	proto "github.com/golang/protobuf/proto"
+
+	math "math"
+
+	google_protobuf "github.com/golang/protobuf/ptypes/timestamp"
+
+	_ "github.com/johanbrandhorst/protobuf/proto"
+
 	context "golang.org/x/net/context"
+
 	grpc "google.golang.org/grpc"
 )
 
@@ -277,6 +282,7 @@ func (m *GetBookRequest) GetIsbn() int64 {
 }
 
 // QueryBooksRequest is the input to the QueryBooks method.
+/*
 type QueryBooksRequest struct {
 	// AuthorPrefix is the prefix with which
 	// to match against the author of a book in the library.
@@ -294,6 +300,7 @@ func (m *QueryBooksRequest) GetAuthorPrefix() string {
 	}
 	return ""
 }
+*/
 
 // Collection is a collection of books
 type Collection struct {
@@ -352,7 +359,7 @@ func (m *BookMessage) GetName() string {
 	return ""
 }
 
-func (m *BookMessage) GetMessage() string {
+func (m *BookMessage) GetBook() string {
 	if x, ok := m.GetContent().(*BookMessage_Message); ok {
 		return x.Message
 	}
@@ -436,7 +443,7 @@ func (m *BookResponse) String() string            { return proto.CompactTextStri
 func (*BookResponse) ProtoMessage()               {}
 func (*BookResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{6} }
 
-func (m *BookResponse) GetMessage() string {
+func (m *BookResponse) GetBook() string {
 	if m != nil {
 		return m.Message
 	}
@@ -447,7 +454,7 @@ func init() {
 	proto.RegisterType((*Publisher)(nil), "library.Publisher")
 	proto.RegisterType((*Book)(nil), "library.Book")
 	proto.RegisterType((*GetBookRequest)(nil), "library.GetBookRequest")
-	proto.RegisterType((*QueryBooksRequest)(nil), "library.QueryBooksRequest")
+	//proto.RegisterType((*QueryBooksRequest)(nil), "library.QueryBooksRequest")
 	proto.RegisterType((*Collection)(nil), "library.Collection")
 	proto.RegisterType((*BookMessage)(nil), "library.BookMessage")
 	proto.RegisterType((*BookResponse)(nil), "library.BookResponse")
@@ -472,11 +479,11 @@ type BookServiceClient interface {
 	// QueryBooks returns all Books whos author
 	// matches the author prefix provided, as a stream
 	// of Books.
-	QueryBooks(ctx context.Context, in *QueryBooksRequest, opts ...grpc.CallOption) (BookService_QueryBooksClient, error)
+	//QueryBooks(ctx context.Context, in *QueryBooksRequest, opts ...grpc.CallOption) (BookService_QueryBooksClient, error)
 	// MakeCollection takes a stream of books and returns a Book collection.
-	MakeCollection(ctx context.Context, opts ...grpc.CallOption) (BookService_MakeCollectionClient, error)
-	// BookChat allows discussion about books
-	BookChat(ctx context.Context, opts ...grpc.CallOption) (BookService_BookChatClient, error)
+	//MakeCollection(ctx context.Context, opts ...grpc.CallOption) (BookService_MakeCollectionClient, error)
+	// Chat allows discussion about books
+	//Chat(ctx context.Context, opts ...grpc.CallOption) (BookService_ChatClient, error)
 }
 
 type bookServiceClient struct {
@@ -496,6 +503,7 @@ func (c *bookServiceClient) GetBook(ctx context.Context, in *GetBookRequest, opt
 	return out, nil
 }
 
+/*
 func (c *bookServiceClient) QueryBooks(ctx context.Context, in *QueryBooksRequest, opts ...grpc.CallOption) (BookService_QueryBooksClient, error) {
 	stream, err := grpc.NewClientStream(ctx, &_BookService_serviceDesc.Streams[0], c.cc, "/library.BookService/QueryBooks", opts...)
 	if err != nil {
@@ -562,36 +570,37 @@ func (x *bookServiceMakeCollectionClient) CloseAndRecv() (*Collection, error) {
 	return m, nil
 }
 
-func (c *bookServiceClient) BookChat(ctx context.Context, opts ...grpc.CallOption) (BookService_BookChatClient, error) {
-	stream, err := grpc.NewClientStream(ctx, &_BookService_serviceDesc.Streams[2], c.cc, "/library.BookService/BookChat", opts...)
+func (c *bookServiceClient) Chat(ctx context.Context, opts ...grpc.CallOption) (BookService_ChatClient, error) {
+	stream, err := grpc.NewClientStream(ctx, &_BookService_serviceDesc.Streams[2], c.cc, "/library.BookService/Chat", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &bookServiceBookChatClient{stream}
+	x := &bookServiceChatClient{stream}
 	return x, nil
 }
 
-type BookService_BookChatClient interface {
+type BookService_ChatClient interface {
 	Send(*BookMessage) error
 	Recv() (*BookResponse, error)
 	grpc.ClientStream
 }
 
-type bookServiceBookChatClient struct {
+type bookServiceChatClient struct {
 	grpc.ClientStream
 }
 
-func (x *bookServiceBookChatClient) Send(m *BookMessage) error {
+func (x *bookServiceChatClient) Send(m *BookMessage) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *bookServiceBookChatClient) Recv() (*BookResponse, error) {
+func (x *bookServiceChatClient) Recv() (*BookResponse, error) {
 	m := new(BookResponse)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
 	return m, nil
 }
+*/
 
 // Server API for BookService service
 
@@ -603,11 +612,11 @@ type BookServiceServer interface {
 	// QueryBooks returns all Books whos author
 	// matches the author prefix provided, as a stream
 	// of Books.
-	QueryBooks(*QueryBooksRequest, BookService_QueryBooksServer) error
+	//QueryBooks(*QueryBooksRequest, BookService_QueryBooksServer) error
 	// MakeCollection takes a stream of books and returns a Book collection.
-	MakeCollection(BookService_MakeCollectionServer) error
-	// BookChat allows discussion about books
-	BookChat(BookService_BookChatServer) error
+	//MakeCollection(BookService_MakeCollectionServer) error
+	// Chat allows discussion about books
+	//Chat(BookService_ChatServer) error
 }
 
 func RegisterBookServiceServer(s *grpc.Server, srv BookServiceServer) {
@@ -632,6 +641,7 @@ func _BookService_GetBook_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+/*
 func _BookService_QueryBooks_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(QueryBooksRequest)
 	if err := stream.RecvMsg(m); err != nil {
@@ -679,31 +689,32 @@ func (x *bookServiceMakeCollectionServer) Recv() (*Book, error) {
 	return m, nil
 }
 
-func _BookService_BookChat_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(BookServiceServer).BookChat(&bookServiceBookChatServer{stream})
+func _BookService_Chat_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(BookServiceServer).Chat(&bookServiceChatServer{stream})
 }
 
-type BookService_BookChatServer interface {
+type BookService_ChatServer interface {
 	Send(*BookResponse) error
 	Recv() (*BookMessage, error)
 	grpc.ServerStream
 }
 
-type bookServiceBookChatServer struct {
+type bookServiceChatServer struct {
 	grpc.ServerStream
 }
 
-func (x *bookServiceBookChatServer) Send(m *BookResponse) error {
+func (x *bookServiceChatServer) Send(m *BookResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *bookServiceBookChatServer) Recv() (*BookMessage, error) {
+func (x *bookServiceChatServer) Recv() (*BookMessage, error) {
 	m := new(BookMessage)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
 	return m, nil
 }
+*/
 
 var _BookService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "library.BookService",
@@ -714,24 +725,26 @@ var _BookService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _BookService_GetBook_Handler,
 		},
 	},
-	Streams: []grpc.StreamDesc{
-		{
-			StreamName:    "QueryBooks",
-			Handler:       _BookService_QueryBooks_Handler,
-			ServerStreams: true,
+	/*
+		Streams: []grpc.StreamDesc{
+			{
+				StreamName:    "QueryBooks",
+				Handler:       _BookService_QueryBooks_Handler,
+				ServerStreams: true,
+			},
+				{
+					StreamName:    "MakeCollection",
+					Handler:       _BookService_MakeCollection_Handler,
+					ClientStreams: true,
+				},
+				{
+					StreamName:    "Chat",
+					Handler:       _BookService_Chat_Handler,
+					ServerStreams: true,
+					ClientStreams: true,
+				},
 		},
-		{
-			StreamName:    "MakeCollection",
-			Handler:       _BookService_MakeCollection_Handler,
-			ClientStreams: true,
-		},
-		{
-			StreamName:    "BookChat",
-			Handler:       _BookService_BookChat_Handler,
-			ServerStreams: true,
-			ClientStreams: true,
-		},
-	},
+	*/
 	Metadata: "proto/library/book_service.proto",
 }
 

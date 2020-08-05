@@ -59,11 +59,13 @@ message GetBookRequest {
 }
 
 // QueryBooksRequest is the input to the QueryBooks method.
+/*
 message QueryBooksRequest {
   // AuthorPrefix is the prefix with which
   // to match against the author of a book in the library.
   string author_prefix = 1;
 }
+*/
 
 // Collection is a collection of books
 message Collection {
@@ -98,9 +100,9 @@ service BookService {
   // QueryBooks returns all Books whos author
   // matches the author prefix provided, as a stream
   // of Books.
-  rpc QueryBooks(QueryBooksRequest) returns (stream Book) {}
+  //rpc QueryBooks(QueryBooksRequest) returns (stream Book) {}
   // MakeCollection takes a stream of books and returns a Book collection.
-  rpc MakeCollection(stream Book) returns (Collection) {}
-  // BookChat allows discussion about books
-  rpc BookChat(stream BookMessage) returns (stream BookResponse) {}
+  //rpc MakeCollection(stream Book) returns (Collection) {}
+  // Chat allows discussion about books
+  //rpc Chat(stream BookMessage) returns (stream BookResponse) {}
 }

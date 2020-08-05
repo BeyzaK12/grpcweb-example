@@ -426,7 +426,7 @@ func (m *FileDescriptorProto) GetWeakDependency() []int32 {
 	return nil
 }
 
-func (m *FileDescriptorProto) GetMessageType() []*DescriptorProto {
+func (m *FileDescriptorProto) GetBookType() []*DescriptorProto {
 	if m != nil {
 		return m.MessageType
 	}
@@ -1272,7 +1272,7 @@ const Default_MessageOptions_MessageSetWireFormat bool = false
 const Default_MessageOptions_NoStandardDescriptorAccessor bool = false
 const Default_MessageOptions_Deprecated bool = false
 
-func (m *MessageOptions) GetMessageSetWireFormat() bool {
+func (m *MessageOptions) GetBookSetWireFormat() bool {
 	if m != nil && m.MessageSetWireFormat != nil {
 		return *m.MessageSetWireFormat
 	}

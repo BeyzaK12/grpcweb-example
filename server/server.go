@@ -4,8 +4,6 @@
 package server
 
 import (
-	"io"
-	"strings"
 	"sync"
 	"time"
 
@@ -103,6 +101,7 @@ func (s *BookService) GetBook(ctx context.Context, bookQuery *library.GetBookReq
 	return nil, grpc.Errorf(codes.NotFound, "Book could not be found")
 }
 
+/*
 func (s *BookService) QueryBooks(bookQuery *library.QueryBooksRequest, stream library.BookService_QueryBooksServer) error {
 	for _, book := range books {
 		select {
@@ -135,6 +134,7 @@ func (s *BookService) MakeCollection(srv library.BookService_MakeCollectionServe
 		collection.Books = append(collection.Books, bk)
 	}
 }
+*/
 
 type broadcaster struct {
 	listenerMu sync.RWMutex
@@ -175,7 +175,8 @@ func (b *broadcaster) Broadcast(ctx context.Context, msg string) {
 	}
 }
 
-func (s *BookService) BookChat(srv library.BookService_BookChatServer) error {
+/*
+func (s *BookService) Chat(srv library.BookService_ChatServer) error {
 	// Listen for initial message with name
 	msg, err := srv.Recv()
 	if err == io.EOF {
@@ -237,7 +238,7 @@ func (s *BookService) BookChat(srv library.BookService_BookChatServer) error {
 				recvErrChan <- err
 				return
 			}
-			s.b.Broadcast(srv.Context(), name+": "+msg.GetMessage())
+			s.b.Broadcast(srv.Context(), name+": "+msg.GetBook())
 		}
 	}()
 
@@ -254,3 +255,4 @@ func (s *BookService) BookChat(srv library.BookService_BookChatServer) error {
 		return srv.Context().Err()
 	}
 }
+*/

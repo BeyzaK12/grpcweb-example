@@ -14,7 +14,7 @@ import (
 
 //go:generate reactGen
 
-// GetBookDef defines the getbook component
+// GetBookDef defines the GetBook component
 type GetBookDef struct {
 	r.ComponentDef
 }
