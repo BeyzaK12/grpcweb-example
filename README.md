@@ -1,4 +1,9 @@
 # Go gRPC-Web Example
+
+
+WARNING: This folder has to be in $GOPATH/src/github.com/johanbrandhorst
+
+
 [![Circle CI](https://circleci.com/gh/johanbrandhorst/grpcweb-example.svg?style=shield)](https://circleci.com/gh/johanbrandhorst/grpcweb-example)
 [![Go Report Card](https://goreportcard.com/badge/github.com/johanbrandhorst/grpcweb-example)](https://goreportcard.com/report/github.com/johanbrandhorst/grpcweb-example)
 [![GoDoc](https://godoc.org/github.com/johanbrandhorst/grpcweb-example?status.svg)](https://godoc.org/github.com/johanbrandhorst/grpcweb-example)
